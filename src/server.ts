@@ -15,7 +15,7 @@ server.use(express.urlencoded({ extended: true }));
 
 server.get('/ping', (req: Request, res: Response) => res.json({ pong: true }));
 
-server.use(apiRoutes);
+server.use('/api', apiRoutes);
 
 server.use((req: Request, res: Response) => {
     res.status(404);
