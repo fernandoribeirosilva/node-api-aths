@@ -17,8 +17,14 @@ export const register = async (req: Request, res: Response) => {
         if (!hasUser) {
             let newUser = await User.create({ email, password });
 
+            const token = JWT.sign(
+                { id: newUser.id, email: newUser.email },
+                process.env.JWT_SECRET_KEY as string,
+                { expiresIn: '2h' } // duração do token
+            )
+
             res.status(201);
-            res.json({ id: newUser.id });
+            res.json({ id: newUser.id, token });
             return;
         } else {
             res.json({ error: 'E-mail já existe.' });
